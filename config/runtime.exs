@@ -3,7 +3,11 @@ import Dotenvy
 
 source!(["#{config_env()}.env", System.get_env()])
 
-swoosh_adapter = env!("SWOOSH_ADAPTER", :module, Swoosh.Adapters.Local)
+swoosh_adapter =
+  case env!("SWOOSH_ADAPTER", :string, "") do
+    "" -> Swoosh.Adapters.Local
+    mod -> String.to_existing_atom("Elixir." <> mod)
+  end
 
 swoosh_configs =
   if swoosh_adapter == Swoosh.Adapters.Local do
@@ -43,6 +47,14 @@ end
 
 # config :phoenix_analytics,
 #   app_domain: env!("PHX_HOST", :string, "example.com")
+
+if config_env() == :dev do
+  config :fleetms, Fleetms.Repo,
+    username: env!("DB_USERNAME", :string, "postgres"),
+    password: env!("DB_PASSWORD", :string, ""),
+    hostname: env!("DB_HOSTNAME", :string, "localhost"),
+    database: env!("DB_NAME", :string, "fleetms_dev")
+end
 
 if config_env() == :prod do
   database_url =

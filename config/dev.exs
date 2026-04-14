@@ -1,15 +1,8 @@
 import Config
-import Dotenvy
-
-source!(["#{config_env()}.env", System.get_env()])
 
 config :phoenix_live_view, debug_heex_annotations: true
 # Configure your database
 config :fleetms, Fleetms.Repo,
-  username: env!("DB_USERNAME", :string, "postgres"),
-  password: env!("DB_PASSWORD", :string, ""),
-  hostname: env!("DB_HOSTNAME", :string, "localhost"),
-  database: env!("DB_NAME", :string, "fleetms_dev"),
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 15,
