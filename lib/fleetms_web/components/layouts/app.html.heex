@@ -1,0 +1,20 @@
+<%# <.flash_group flash={@flash} /> %>
+<LiveToast.toast_group flash={@flash} connected={assigns[:socket] != nil} corner={:top_right} toast_class_fn={&toast_class_custom_fn/1} />
+<.navbar current_user={@current_user} />
+<div
+  class="flex overflow-hidden pt-16 bg-gray-50 dark:bg-gray-900"
+  phx-hook="dispatchPhxLoadingStopEvent"
+  id="outer-container"
+>
+  <.sidebar active_link={@active_link} current_user={@current_user} />
+  <div
+    id="main-content"
+    class="overflow-y-auto relative w-full h-full bg-gray-50 lg:ml-64 dark:bg-gray-900"
+  >
+    <main>
+      <%= @inner_content %>
+
+      <.footer />
+    </main>
+  </div>
+</div>
